@@ -1,15 +1,10 @@
 package com.creaters.lora.SplashScreen;
 
-
-
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.widget.ImageView;
-
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.creaters.lora.R;
 
 public class SplashScreen extends AppCompatActivity {

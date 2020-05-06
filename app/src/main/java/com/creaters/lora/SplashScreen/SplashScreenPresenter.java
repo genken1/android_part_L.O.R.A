@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.ImageView;
 
-import com.creaters.lora.MainActivity;
+import com.creaters.lora.MainMenu.MenuActivity;
 
 public class SplashScreenPresenter {
     private SplashScreenModel splashModel;
@@ -15,7 +15,7 @@ public class SplashScreenPresenter {
 
     public void startNewActivity(Context context, ImageView image) {
         long delay = 3000;
-        Intent intent_menu = new Intent(context, MainActivity.class);
+        Intent intent_menu = new Intent(context, MenuActivity.class);
         splashModel.initAnimation();
         splashModel.animationStart(image);
         splashModel.startNewActivityWithDelay(intent_menu, delay);
