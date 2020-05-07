@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">L.O.R.A</string>
 
     <string name="title_activity_splash_screen">SplashScreen</string>
@@ -16,4 +16,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="facebook_app_id" tools:ignore="DuplicateDefinition">266842834362462</string>
+    <string name="fb_login_protocol_scheme" tools:ignore="DuplicateDefinition">fb266842834362462</string>
+
 </resources>

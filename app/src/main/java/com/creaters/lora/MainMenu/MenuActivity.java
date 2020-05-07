@@ -3,20 +3,28 @@ package com.creaters.lora.MainMenu;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.creaters.lora.R;
+import com.facebook.CallbackManager;
+import com.facebook.login.widget.LoginButton;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
     private Button achievements;
     private Button settings;
     private ImageView start;
+    private LoginButton loginFacebookButton;
+    private ImageButton fbGhost;
     private MenuPresenter presenter;
+    private CallbackManager callbackManager;
+
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -24,25 +32,36 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_menu);
-        initView();
+        initComponent();
     }
 
-    public void initView(){
-        achievements = findViewById(R.id.achievements);
-        settings = findViewById(R.id.settings);
-        start = findViewById(R.id.start);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void initComponent() {
+        callbackManager = CallbackManager.Factory.create();
+
+        achievements = (Button) findViewById(R.id.achievements);
+        settings = (Button) findViewById(R.id.settings);
+        start = (ImageView) findViewById(R.id.start);
+        fbGhost = (ImageButton)findViewById(R.id.fb);
+        loginFacebookButton = (LoginButton) findViewById(R.id.login_button);
 
         achievements.setOnClickListener(this);
         settings.setOnClickListener(this);
         start.setOnClickListener(this);
+        fbGhost.setOnClickListener(this);
 
-        presenter= new MenuPresenter(this);
+        presenter = new MenuPresenter(this, loginFacebookButton, callbackManager);
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.achievements:
                 Toast.makeText(getApplicationContext(), "Achievements Button!", Toast.LENGTH_SHORT).show();
                 presenter.startAchievementsActivity();
@@ -55,6 +74,9 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(getApplicationContext(), "Play Button!", Toast.LENGTH_SHORT).show();
                 presenter.startPlayActivity();
                 break;
+            case R.id.fb:
+                Toast.makeText(getApplicationContext(), "Facebook Button!", Toast.LENGTH_SHORT).show();
+                loginFacebookButton.performClick();
         }
     }
 
