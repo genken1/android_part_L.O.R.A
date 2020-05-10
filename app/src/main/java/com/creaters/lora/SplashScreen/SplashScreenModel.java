@@ -22,7 +22,7 @@ public class SplashScreenModel {
         image.startAnimation(anim);
     }
 
-    /*Intent new class of activity, delay in milliseconds*/
+    /*new class of activity, delay in milliseconds*/
     public void startNewActivityWithDelay(final Intent activity, final long milli) {
         Thread thread = new Thread() {
             public void run() {

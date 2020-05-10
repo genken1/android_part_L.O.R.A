@@ -16,9 +16,9 @@ import com.google.gson.annotations.SerializedName;
 * As you can see we have a similar name in json and annotation*/
 
 public class User {
-    /*@Nullable
+    @Nullable
     @SerializedName("id")
-    Integer id;*/
+    Integer id;
 
     @SerializedName("name")
     String name;
@@ -29,13 +29,13 @@ public class User {
     @SerializedName("email")
     String email;
 
-    /*public Integer getId() {
+    public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }*/
+    }
 
     public String getName() {
         return name;

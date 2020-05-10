@@ -28,14 +28,15 @@ public class OAuthFB {
     private CallbackManager callbackManager;
     private AccessToken accessToken = AccessToken.getCurrentAccessToken();
     private LoginButton loginButton;
-    private User userOAuth;
+    private User user;
     private UserController userController;
+    private boolean getEmailOneTime = true;
 
     public OAuthFB(Context context, LoginButton loginButton, CallbackManager callbackManager){
         this.callbackManager = callbackManager;
         this.loginButton = loginButton;
         this.context = context;
-        userOAuth = new User();
+        user = new User();
         facebookOAuth();
     }
 
@@ -45,7 +46,7 @@ public class OAuthFB {
             if(currentAccessToken==null){
                 Toast.makeText(context, "User logged out", Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(context, userOAuth.getName()+" "+ userOAuth.getLast_name()+" "+ userOAuth.getEmail()+" ", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, user.getName()+" "+ user.getLast_name()+" "+ user.getEmail()+" ", Toast.LENGTH_LONG).show();
                 loadUserProfile(currentAccessToken);
             }
         }
@@ -59,12 +60,18 @@ public class OAuthFB {
                     userController = new UserController();
                     String[] result = object.getString("name").split(" ", 2);
                     String name = result[0];
-                    userOAuth.setName(name);
-                    userOAuth.setLast_name(object.getString("last_name"));
-                    userOAuth.setEmail(object.getString("email"));
+                    user.setName(name);
+                    user.setLast_name(object.getString("last_name"));
+                    user.setEmail(object.getString("email"));
+                    userController.createPostRequest(user);
                     try {
-                        userController.createPostRequest(userOAuth);
-                        userController.createGetRequest(true);
+                        if(getEmailOneTime) {
+                            //userController.createGetRequest("chushckin.ol@yandex.ru");
+                            getEmailOneTime = false;
+                        }else{
+
+                            //userController.createGetRequest();
+                        }
                     }catch(IllegalArgumentException e){
                         e.printStackTrace();
                     }

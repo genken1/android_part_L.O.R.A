@@ -1,11 +1,11 @@
 package com.creaters.lora.RetrofitComponent.Controllers;
 
-import com.creaters.lora.RetrofitComponent.UserOAuth;
 import com.creaters.lora.RetrofitComponent.Entities.User;
 import com.creaters.lora.RetrofitComponent.Services.UserService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -13,6 +13,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
+/*Use enqueue for Asynchronously send the request
+ *and notify callback of its response or if an error occurred talking to the server,
+ *creating the request, or processing the response.
+ */
 public class UserController {
     public static final String BASE_URL = "https://serverlora.herokuapp.com/";
 
@@ -31,18 +35,9 @@ public class UserController {
         service = retrofit.create(UserService.class);
     }
 
-    /*if variable=true then initialize with email else with id*/
-    //Здесь в общем то все норм, нужно доделать этот метод, передавать по нормальному email и id
-    public void createGetRequest(boolean init_with_email) {
+    public void createGetRequest(String email) {
         Call<User> call;
-        if (init_with_email)
-            call = service.getUserByEmail("ken.barcson@zmei.com");
-        else
-            call = service.getUserById(1);
-        /*Use enqueue for Asynchronously send the request
-        *and notify callback of its response or if an error occurred talking to the server,
-        *creating the request, or processing the response.
-        */
+        call = service.getUserByEmail("ken.barcson@zmei.com");
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -50,9 +45,34 @@ public class UserController {
                     System.out.println(response.code());
                     return;
                 }
+                ////
                 User user = response.body();
                 userInfo = user.getName() + " " + user.getLast_name() + " " + " " + user.getEmail();
                 System.out.println(userInfo);
+                ////
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                //error handling
+            }
+        });
+    }
+    public void createGetRequest(Integer id) {
+        Call<User> call;
+        call = service.getUserById(id);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (!response.isSuccessful()) {
+                    System.out.println(response.code());
+                    return;
+                }
+                ////
+                User user = response.body();
+                userInfo = user.getName() + " " + user.getLast_name() + " " + " " + user.getEmail();
+                System.out.println(userInfo);
+                ////
             }
 
             @Override
@@ -72,8 +92,10 @@ public class UserController {
                     System.out.println(response.code());
                     return;
                 }
-                userInfo =user.getName() + " " + user.getLast_name() + " " + " " + user.getEmail();
+                ////
+                userInfo = user.getName() + " " + user.getLast_name() + " " + " " + user.getEmail();
                 System.out.println(userInfo);
+                ////
             }
 
             @Override
@@ -84,7 +106,7 @@ public class UserController {
 
     }
 
-    public JSONObject jsonUserConverter(User user){
+    public JSONObject jsonUserConverter(User user) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("name", user.getName());
