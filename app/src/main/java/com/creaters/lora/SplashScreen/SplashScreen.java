@@ -3,6 +3,8 @@ package com.creaters.lora.SplashScreen;
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.creaters.lora.R;
@@ -20,6 +22,8 @@ public class SplashScreen extends AppCompatActivity {
         splash = new SplashScreenPresenter(this);
         image = findViewById(R.id.imageView);
         splash.startNewActivity(this, image);
+        Window w = getWindow();
+        w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
     }
 
 }

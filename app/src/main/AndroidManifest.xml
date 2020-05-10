@@ -29,6 +29,7 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".MainMenu.MenuActivity"
+            android:hardwareAccelerated="false"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity" />
 

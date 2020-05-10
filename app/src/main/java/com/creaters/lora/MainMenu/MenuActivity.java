@@ -7,15 +7,23 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+/*<<<<<<< Updated upstream*/
 
 import com.creaters.lora.MainMenu.FacebookOAuth.OAuthFB;
+/*=======
+>>>>>>> Stashed changes*/
 import com.creaters.lora.R;
 import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
     private Button achievements;
@@ -35,7 +43,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_menu);
         initComponent();
-    }
+
+        Window w = getWindow();
+        w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+}
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -57,7 +68,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
         presenter = new MenuPresenter(this);
     }
-
 
     @Override
     public void onClick(View v) {
