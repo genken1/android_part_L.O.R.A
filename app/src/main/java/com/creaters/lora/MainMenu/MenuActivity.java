@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.creaters.lora.MainMenu.FacebookOAuth.OAuthFB;
 import com.creaters.lora.R;
 import com.facebook.CallbackManager;
 import com.facebook.login.widget.LoginButton;
@@ -24,6 +25,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton fbGhost;
     private MenuPresenter presenter;
     private CallbackManager callbackManager;
+    private OAuthFB userOAuth;
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -42,8 +44,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void initComponent() {
-        callbackManager = CallbackManager.Factory.create();
-
         achievements = (Button) findViewById(R.id.achievements);
         settings = (Button) findViewById(R.id.settings);
         start = (ImageView) findViewById(R.id.start);
@@ -55,7 +55,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         start.setOnClickListener(this);
         fbGhost.setOnClickListener(this);
 
-        presenter = new MenuPresenter(this, loginFacebookButton, callbackManager);
+        presenter = new MenuPresenter(this);
     }
 
 
@@ -68,15 +68,17 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.settings:
                 Toast.makeText(getApplicationContext(), "Settings Button", Toast.LENGTH_SHORT).show();
-                presenter.startSettingsFragment();
+                presenter.startSettingsActivity();
                 break;
             case R.id.start:
                 Toast.makeText(getApplicationContext(), "Play Button!", Toast.LENGTH_SHORT).show();
                 presenter.startPlayActivity();
                 break;
             case R.id.fb:
+                callbackManager = CallbackManager.Factory.create();
                 Toast.makeText(getApplicationContext(), "Facebook Button!", Toast.LENGTH_SHORT).show();
                 loginFacebookButton.performClick();
+                userOAuth = new OAuthFB(this,  loginFacebookButton, callbackManager);
         }
     }
 

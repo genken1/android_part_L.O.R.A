@@ -15,18 +15,30 @@ public class MenuPresenter {
     private Intent intent_settings;
     private Intent intent_achievements;
     private Intent intent_play;
-    private OAuthFB oAuthFB;
+    private CallbackManager callbackManager;
+    private LoginButton loginButton;
+
+    public CallbackManager getCallbackManager() {
+        return callbackManager;
+    }
+
+    public void setCallbackManager(CallbackManager callbackManager) {
+        this.callbackManager = callbackManager;
+    }
+
+    public LoginButton getLoginButton() {
+        return loginButton;
+    }
+
+    public void setLoginButton(LoginButton loginButton) {
+        this.loginButton = loginButton;
+    }
 
     public MenuPresenter(Context context){
         this.context = context;
     }
 
-    public MenuPresenter(Context context, LoginButton loginButton, CallbackManager callbackManager){
-        this.context = context;
-        oAuthFB = new OAuthFB(context, loginButton, callbackManager);
-    }
-
-    public void startSettingsFragment() {
+    public void startSettingsActivity() {
         intent_settings = new Intent(context, SettingsActivity.class);
         context.startActivity(intent_settings);
     }
