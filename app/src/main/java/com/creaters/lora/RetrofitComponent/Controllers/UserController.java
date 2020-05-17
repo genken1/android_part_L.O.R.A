@@ -1,5 +1,8 @@
 package com.creaters.lora.RetrofitComponent.Controllers;
 
+import android.util.Log;
+
+import com.creaters.lora.Preferences;
 import com.creaters.lora.RetrofitComponent.Entities.User;
 import com.creaters.lora.RetrofitComponent.Services.UserService;
 
@@ -18,13 +21,10 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  *creating the request, or processing the response.
  */
 public class UserController {
+    final String ERROR= "ERROR CODE";
     public static final String BASE_URL = "https://serverlora.herokuapp.com/";
-
     private UserService service;
     private Retrofit retrofit;
-    //Отладочная жесть, не забыть стереть)))))) А то такой прикол будет
-    private String userInfo;
-    ////////////////
 
     public UserController() {
         retrofit = new Retrofit.Builder()
@@ -35,9 +35,10 @@ public class UserController {
         service = retrofit.create(UserService.class);
     }
 
-    public void createGetRequest(String email) {
-        Call<User> call;
-        call = service.getUserByEmail("ken.barcson@zmei.com");
+    /*Get email request and send data to preferences*/
+    public Call createGetRequest(Preferences preferences, String email) {
+        Call<User> call = service.getUserByEmail(email);
+        //Могут быть проблемы, из-за асинхронности(Данные будут извлекаться быстрее, чем класться)
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -45,19 +46,20 @@ public class UserController {
                     System.out.println(response.code());
                     return;
                 }
-                ////
-                User user = response.body();
-                userInfo = user.getName() + " " + user.getLast_name() + " " + " " + user.getEmail();
-                System.out.println(userInfo);
-                ////
+                String id = response.body().getId().toString();
+                preferences.setValue("id", id);
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                System.out.println("fail");
                 //error handling
             }
         });
+        return call;
     }
+
+    /*Get id request*/
     public void createGetRequest(Integer id) {
         Call<User> call;
         call = service.getUserById(id);
@@ -65,14 +67,9 @@ public class UserController {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()) {
-                    System.out.println(response.code());
+                    Log.e(ERROR, String.valueOf(response.code()));
                     return;
                 }
-                ////
-                User user = response.body();
-                userInfo = user.getName() + " " + user.getLast_name() + " " + " " + user.getEmail();
-                System.out.println(userInfo);
-                ////
             }
 
             @Override
@@ -82,6 +79,7 @@ public class UserController {
         });
     }
 
+    /*Post request*/
     public void createPostRequest(User user) {
         String param = jsonUserConverter(user).toString();
         Call<String> call = service.create(param);
@@ -89,13 +87,9 @@ public class UserController {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (!response.isSuccessful()) {
-                    System.out.println(response.code());
+                    Log.e(ERROR, String.valueOf(response.code()));
                     return;
                 }
-                ////
-                userInfo = user.getName() + " " + user.getLast_name() + " " + " " + user.getEmail();
-                System.out.println(userInfo);
-                ////
             }
 
             @Override
