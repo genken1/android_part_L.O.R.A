@@ -9,6 +9,7 @@ import com.creaters.lora.RetrofitComponent.Services.UserService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,7 +22,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  *creating the request, or processing the response.
  */
 public class UserController {
-    final String ERROR= "ERROR CODE";
     public static final String BASE_URL = "https://serverlora.herokuapp.com/";
     private UserService service;
     private Retrofit retrofit;
@@ -35,6 +35,27 @@ public class UserController {
         service = retrofit.create(UserService.class);
     }
 
+    /*Post request*/
+    public Call createPostRequest(User user) {
+        String param = jsonUserConverter(user).toString();
+        Call<String> call = service.create(param);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("UserController.createPostRequest", String.valueOf(response.code()));
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("UserController.createPostRequest", "fail");
+            }
+        });
+        return call;
+    }
+
     /*Get email request and send data to preferences*/
     public Call createGetRequest(Preferences preferences, String email) {
         Call<User> call = service.getUserByEmail(email);
@@ -43,7 +64,7 @@ public class UserController {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()) {
-                    System.out.println(response.code());
+                    Log.e("UserController.createGetRequest(email)", String.valueOf(response.code()));
                     return;
                 }
                 String id = response.body().getId().toString();
@@ -52,7 +73,7 @@ public class UserController {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                System.out.println("fail");
+                Log.e("UserController.createGetRequest(email)", "fail");
                 //error handling
             }
         });
@@ -67,37 +88,16 @@ public class UserController {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()) {
-                    Log.e(ERROR, String.valueOf(response.code()));
+                    Log.e("UserController.createGetRequest(id)", String.valueOf(response.code()));
                     return;
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                //error handling
+                Log.e("UserController.createGetRequest(id)", "fail");
             }
         });
-    }
-
-    /*Post request*/
-    public void createPostRequest(User user) {
-        String param = jsonUserConverter(user).toString();
-        Call<String> call = service.create(param);
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (!response.isSuccessful()) {
-                    Log.e(ERROR, String.valueOf(response.code()));
-                    return;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                //error handling
-            }
-        });
-
     }
 
     public JSONObject jsonUserConverter(User user) {

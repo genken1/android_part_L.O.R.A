@@ -33,16 +33,15 @@ public class OAuthFB {
     private LoginButton loginButton;
     private User user;
     private UserController userController;
-    private AchievementsController controllerAch;
     private Preferences preferences;
-    private AsyncRequest async;
+    private SyncRequest sync;
 
     public OAuthFB(Context context, LoginButton loginButton, CallbackManager callbackManager) {
         this.callbackManager = callbackManager;
         this.loginButton = loginButton;
         this.context = context;
         user = new User();
-        preferences = new Preferences(context);
+        preferences = new Preferences(context, "user_data");
         facebookOAuth();
     }
 
@@ -64,25 +63,22 @@ public class OAuthFB {
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
                     userController = new UserController();
-                    controllerAch = new AchievementsController();
-                    /*в поле с именем хранится еще и фаимлия поэтому приходится делать такую заглущку.*/
+                    /*в поле с именем хранится еще и фаимлия поэтому приходится делать такую заглушку.*/
                     String[] result = object.getString("name").split(" ", 2);
                     user.setName(result[0]);
                     user.setLast_name(object.getString("last_name"));
-                    userController.createPostRequest(user);
                     /*
                     *добавляем данные в SharedPreferences(Возможна исключительная ситуация,
-                    *когда у пользователя к аккаунту facebook Не привзяана почта)
+                    *когда у пользователя к аккаунту facebook не привзяана почта)
                     */
                     try {
                         user.setEmail(object.getString("email"));
                         preferences.setValue("email", object.getString("email"));
+                        sync = new SyncRequest(preferences, userController, user);
+                        sync.start();
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
-                    async = new AsyncRequest(preferences);
-                    async.emailRequest(userController).start();
-                    async.idRequest(controllerAch).start();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -122,6 +118,4 @@ public class OAuthFB {
         });
         LoginManager.getInstance().logInWithReadPermissions((Activity) context, Arrays.asList("public_profile"));
     }
-
-
 }

@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class Preferences {
-    final static String FILE_NAME = "user_data";
+    //final static String FILE_NAME = "user_data";
 
     private SharedPreferences preferences;
 
-    public Preferences(Context context) {
+    public Preferences(Context context, String FILE_NAME) {
         preferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
     }
 

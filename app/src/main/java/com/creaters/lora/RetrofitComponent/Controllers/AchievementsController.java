@@ -1,5 +1,8 @@
 package com.creaters.lora.RetrofitComponent.Controllers;
 
+import android.util.Log;
+
+import com.creaters.lora.Preferences;
 import com.creaters.lora.RetrofitComponent.Entities.Achievements;
 import com.creaters.lora.RetrofitComponent.Services.AchievementsService;
 
@@ -24,25 +27,27 @@ public class AchievementsController {
         service = retrofit.create(AchievementsService.class);
     }
 
-    public void createGetRequest(Integer id) {
+    public void createGetRequest(Integer id, Preferences achievementsData) {
         Call<List<Achievements>> call = service.getUserAchievements(id);
         call.enqueue(new Callback<List<Achievements>>() {
             @Override
             public void onResponse(Call<List<Achievements>> call, Response<List<Achievements>> response) {
+                Achievements achievements;
                 if (!response.isSuccessful()) {
-                    System.out.println(response.code());
+                    Log.e("AchievementsController.createGetRequest", String.valueOf(response.code()));
                     return;
                 }
                 for (int i = 0; i < response.body().size(); i++) {
-                    Achievements achievements = new Achievements(response.body().get(i).getId(), response.body().get(i).getName(), response.body().get(i).getUrl());;
+                    achievements = new Achievements(response.body().get(i).getId(), response.body().get(i).getName(), response.body().get(i).getUrl());
+                    achievementsData.setValue(response.body().get(i).getName(), response.body().get(i).getUrl());
+                    Log.i("IMPORTANT PRINT",achievements.getId()+" "+achievements.getName()+" "+achievements.getUrl());
                 }
-                //preferences.setValue("id", id);
+                //achievementsData.setValue(achievementsData.);
             }
 
             @Override
             public void onFailure(Call<List<Achievements>> call, Throwable t) {
-                System.out.println("fail");
-                //error handling
+                Log.e("AchievementsController.onFailure", "fail");
             }
         });
     }
