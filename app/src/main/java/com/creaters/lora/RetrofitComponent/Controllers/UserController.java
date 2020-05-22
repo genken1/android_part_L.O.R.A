@@ -17,7 +17,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-/*Use enqueue for Asynchronously send the request
+/**
+ *Use enqueue for Asynchronously send the request
  *and notify callback of its response or if an error occurred talking to the server,
  *creating the request, or processing the response.
  */
@@ -73,7 +74,7 @@ public class UserController {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Log.e("UserController.createGetRequest(email)", "fail");
+                Log.e("UserController.createGetRequest(email)", t.getMessage());
                 //error handling
             }
         });

@@ -67,13 +67,14 @@ public class OAuthFB {
                     String[] result = object.getString("name").split(" ", 2);
                     user.setName(result[0]);
                     user.setLast_name(object.getString("last_name"));
-                    /*
+                    /**
                     *добавляем данные в SharedPreferences(Возможна исключительная ситуация,
                     *когда у пользователя к аккаунту facebook не привзяана почта)
                     */
                     try {
                         user.setEmail(object.getString("email"));
                         preferences.setValue("email", object.getString("email"));
+
                         sync = new SyncRequest(preferences, userController, user);
                         sync.start();
                     } catch (NullPointerException e) {

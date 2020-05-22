@@ -10,6 +10,7 @@ public class SyncRequest extends Thread {
     private Preferences preferences;
     private UserController userController;
     private User user;
+    /**You may have to use additional queries*/
     private volatile Call call;
 
     public SyncRequest(Preferences preferences, UserController userController, User user) {
@@ -20,13 +21,15 @@ public class SyncRequest extends Thread {
 
     @Override
     public void run() {
-        call = userController.createPostRequest(user);
+        //call = userController.createPostRequest(user);
+        call = userController.createGetRequest(preferences, user.getEmail());
 
         while (true) {
             if(call.isExecuted()) {
                 if (!user.getEmail().isEmpty())
-                    userController.createGetRequest(preferences, user.getEmail());
+                    call = userController.createGetRequest(preferences, user.getEmail());
             }
+            if(!preferences.getValue("id").isEmpty())break;
         }
     }
 }

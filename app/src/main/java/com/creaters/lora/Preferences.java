@@ -1,12 +1,19 @@
 package com.creaters.lora;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Map;
+
+/**
+ * MODE_WORLD_READABLE deprecated as of API 17
+ * !!!This dangerous when storing data!!!
+ * */
 public class Preferences {
-    //final static String FILE_NAME = "user_data";
 
     private SharedPreferences preferences;
+
 
     public Preferences(Context context, String FILE_NAME) {
         preferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
@@ -26,5 +33,9 @@ public class Preferences {
 
     public String getValue(String key) {
         return preferences.getString(key, "");
+    }
+
+    public Map<String, ?> getAll(){
+        return preferences.getAll();
     }
 }

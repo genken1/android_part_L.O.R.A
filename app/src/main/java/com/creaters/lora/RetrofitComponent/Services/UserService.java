@@ -8,7 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-/*
+/**
 *  Request from our server!
 *  Another request don't work. It's important.
 *  For example:

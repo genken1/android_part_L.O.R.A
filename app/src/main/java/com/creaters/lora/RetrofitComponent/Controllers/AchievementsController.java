@@ -27,7 +27,7 @@ public class AchievementsController {
         service = retrofit.create(AchievementsService.class);
     }
 
-    public void createGetRequest(Integer id, Preferences achievementsData) {
+    public Call createGetRequest(Integer id, Preferences achievementsData) {
         Call<List<Achievements>> call = service.getUserAchievements(id);
         call.enqueue(new Callback<List<Achievements>>() {
             @Override
@@ -40,9 +40,8 @@ public class AchievementsController {
                 for (int i = 0; i < response.body().size(); i++) {
                     achievements = new Achievements(response.body().get(i).getId(), response.body().get(i).getName(), response.body().get(i).getUrl());
                     achievementsData.setValue(response.body().get(i).getName(), response.body().get(i).getUrl());
-                    Log.i("IMPORTANT PRINT",achievements.getId()+" "+achievements.getName()+" "+achievements.getUrl());
+                    Log.i("ACHIEVEMENTS",achievements.getId()+" "+achievements.getName()+" "+achievements.getUrl());
                 }
-                //achievementsData.setValue(achievementsData.);
             }
 
             @Override
@@ -50,5 +49,6 @@ public class AchievementsController {
                 Log.e("AchievementsController.onFailure", "fail");
             }
         });
+        return call;
     }
 }

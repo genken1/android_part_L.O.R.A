@@ -4,7 +4,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
-/*In this case we use annotation SerializedName
+/**In this case we use annotation SerializedName
 *which contains name variable in json file.
 * For example, json file:
 *                           {

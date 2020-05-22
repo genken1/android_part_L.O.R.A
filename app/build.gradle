@@ -27,6 +27,12 @@ android {
     }
 
 }
+// Xlint debugging
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:unchecked"<< "-Xlint:deprecation"
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -49,6 +55,9 @@ dependencies {
 
     //facebook authorization dependency
     implementation 'com.facebook.android:facebook-login:5.15.3'
+
+    //library for download photo
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
