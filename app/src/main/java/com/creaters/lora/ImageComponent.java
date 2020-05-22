@@ -8,15 +8,17 @@ import android.util.Log;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ImageComponent {
     private Context context;
     private String path;
     private final String TAG = "ImageDownloader";
+
+    public ImageComponent(){}
 
     public ImageComponent(Context context, String path) {
         this.context = context;
@@ -40,25 +42,27 @@ public class ImageComponent {
 
         @Override
         protected Bitmap doInBackground(String... params) {
-            return downloadImageBitmap(params[0]);
-        }
+            return getBitmapFromURL(params[0]);
+    }
 
         protected void onPostExecute(Bitmap result) {
             String short_path = image_name+".png";
             saveImage(context.getApplicationContext(), result, short_path);
         }
 
-        private Bitmap downloadImageBitmap(String sUrl) {
-            Bitmap bitmap = null;
+        private Bitmap getBitmapFromURL(String sUrl) {
             try {
-                InputStream inputStream = new URL(sUrl).openStream();   // Download Image from URL
-                bitmap = BitmapFactory.decodeStream(inputStream);       // Decode Bitmap
-                inputStream.close();
-            } catch (Exception e) {
-                Log.d(TAG, "Exception 1, Something went wrong!");
+                URL url = new URL(sUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (IOException e) {
                 e.printStackTrace();
+                return null;
             }
-            return bitmap;
         }
     }
 
@@ -78,8 +82,8 @@ public class ImageComponent {
         Bitmap bitmap = null;
         FileInputStream fiStream;
         try {
-            fiStream    = context.openFileInput(imageName);
-            bitmap      = BitmapFactory.decodeStream(fiStream);
+            fiStream = context.openFileInput(imageName);
+            bitmap = BitmapFactory.decodeStream(fiStream);
             fiStream.close();
         } catch (Exception e) {
             Log.d("saveImage", "Exception 3, Something went wrong!");

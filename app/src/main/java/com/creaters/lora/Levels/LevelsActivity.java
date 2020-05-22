@@ -2,22 +2,11 @@ package com.creaters.lora.Levels;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.creaters.lora.R;
-
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.URL;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class LevelsActivity extends AppCompatActivity {
     private Button level;
