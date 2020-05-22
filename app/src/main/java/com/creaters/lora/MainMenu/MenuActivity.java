@@ -15,13 +15,14 @@ import android.widget.Toast;
 import com.creaters.lora.MainMenu.FacebookOAuth.OAuthFB;
 import com.creaters.lora.R;
 import com.facebook.CallbackManager;
-import com.facebook.login.widget.LoginButton;
+import com.facebook.login.LoginManager;
+
+import java.util.Arrays;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
     private Button achievements;
     private Button settings;
     private ImageView start;
-    private LoginButton loginFacebookButton;
     private ImageButton fbGhost;
     private MenuPresenter presenter;
     private CallbackManager callbackManager;
@@ -48,7 +49,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         settings = (Button) findViewById(R.id.settings);
         start = (ImageView) findViewById(R.id.start);
         fbGhost = (ImageButton)findViewById(R.id.fb);
-        loginFacebookButton = (LoginButton) findViewById(R.id.login_button);
 
         achievements.setOnClickListener(this);
         settings.setOnClickListener(this);
@@ -77,8 +77,9 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.fb:
                 callbackManager = CallbackManager.Factory.create();
                 Toast.makeText(getApplicationContext(), "Facebook Button!", Toast.LENGTH_SHORT).show();
-                loginFacebookButton.performClick();
-                userOAuth = new OAuthFB(this,  loginFacebookButton, callbackManager);
+                LoginManager loginManager = LoginManager.getInstance();
+                loginManager.logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
+                userOAuth = new OAuthFB(this, loginManager, callbackManager);
         }
     }
 
