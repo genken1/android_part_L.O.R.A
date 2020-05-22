@@ -2,7 +2,7 @@ package com.creaters.lora.RetrofitComponent.Entities;
 
 import com.google.gson.annotations.SerializedName;
 
-/*In this case we use annotation SerializedName
+/**In this case we use annotation SerializedName
  *which contains name variable in json file.
  * For example, json file:
  *                           {
@@ -13,14 +13,22 @@ import com.google.gson.annotations.SerializedName;
  * As you can see we have a similar name in json and annotation*/
 
 public class Achievements {
+    public Achievements(){}
+
+    public Achievements(Integer id, String name, String url){
+        this.id = id;
+        this.name = name;
+        this.url = url;
+    }
+
     @SerializedName("id")
-    public Integer id;
+    private Integer id;
 
     @SerializedName("name")
-    public String name;
+    private String name;
 
     @SerializedName("url")
-    public String url;
+    private String url;
 
     public Integer getId() {
         return id;
@@ -38,11 +46,11 @@ public class Achievements {
         this.name = name;
     }
 
-    public String getUri() {
+    public String getUrl() {
         return url;
     }
 
-    public void setUri(String uri) {
-        this.url = uri;
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

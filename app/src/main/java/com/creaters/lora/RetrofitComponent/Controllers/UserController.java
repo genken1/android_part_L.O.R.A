@@ -1,10 +1,14 @@
 package com.creaters.lora.RetrofitComponent.Controllers;
 
+import android.util.Log;
+
+import com.creaters.lora.Preferences;
 import com.creaters.lora.RetrofitComponent.Entities.User;
 import com.creaters.lora.RetrofitComponent.Services.UserService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -13,18 +17,15 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
-/*Use enqueue for Asynchronously send the request
+/**
+ *Use enqueue for Asynchronously send the request
  *and notify callback of its response or if an error occurred talking to the server,
  *creating the request, or processing the response.
  */
 public class UserController {
     public static final String BASE_URL = "https://serverlora.herokuapp.com/";
-
     private UserService service;
     private Retrofit retrofit;
-    //Отладочная жесть, не забыть стереть)))))) А то такой прикол будет
-    private String userInfo;
-    ////////////////
 
     public UserController() {
         retrofit = new Retrofit.Builder()
@@ -35,29 +36,52 @@ public class UserController {
         service = retrofit.create(UserService.class);
     }
 
-    public void createGetRequest(String email) {
-        Call<User> call;
-        call = service.getUserByEmail("ken.barcson@zmei.com");
+    /*Post request*/
+    public Call createPostRequest(User user) {
+        String param = jsonUserConverter(user).toString();
+        Call<String> call = service.create(param);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (!response.isSuccessful()) {
+                    Log.e("UserController.createPostRequest", String.valueOf(response.code()));
+                    return;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("UserController.createPostRequest", "fail");
+            }
+        });
+        return call;
+    }
+
+    /*Get email request and send data to preferences*/
+    public Call createGetRequest(Preferences preferences, String email) {
+        Call<User> call = service.getUserByEmail(email);
+        //Могут быть проблемы, из-за асинхронности(Данные будут извлекаться быстрее, чем класться)
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()) {
-                    System.out.println(response.code());
+                    Log.e("UserController.createGetRequest(email)", String.valueOf(response.code()));
                     return;
                 }
-                ////
-                User user = response.body();
-                userInfo = user.getName() + " " + user.getLast_name() + " " + " " + user.getEmail();
-                System.out.println(userInfo);
-                ////
+                String id = response.body().getId().toString();
+                preferences.setValue("id", id);
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                Log.e("UserController.createGetRequest(email)", t.getMessage());
                 //error handling
             }
         });
+        return call;
     }
+
+    /*Get id request*/
     public void createGetRequest(Integer id) {
         Call<User> call;
         call = service.getUserById(id);
@@ -65,45 +89,16 @@ public class UserController {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (!response.isSuccessful()) {
-                    System.out.println(response.code());
+                    Log.e("UserController.createGetRequest(id)", String.valueOf(response.code()));
                     return;
                 }
-                ////
-                User user = response.body();
-                userInfo = user.getName() + " " + user.getLast_name() + " " + " " + user.getEmail();
-                System.out.println(userInfo);
-                ////
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                //error handling
+                Log.e("UserController.createGetRequest(id)", "fail");
             }
         });
-    }
-
-    public void createPostRequest(User user) {
-        String param = jsonUserConverter(user).toString();
-        Call<String> call = service.create(param);
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (!response.isSuccessful()) {
-                    System.out.println(response.code());
-                    return;
-                }
-                ////
-                userInfo = user.getName() + " " + user.getLast_name() + " " + " " + user.getEmail();
-                System.out.println(userInfo);
-                ////
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                //error handling
-            }
-        });
-
     }
 
     public JSONObject jsonUserConverter(User user) {

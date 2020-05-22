@@ -4,7 +4,7 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
-/*In this case we use annotation SerializedName
+/**In this case we use annotation SerializedName
 *which contains name variable in json file.
 * For example, json file:
 *                           {
@@ -16,18 +16,33 @@ import com.google.gson.annotations.SerializedName;
 * As you can see we have a similar name in json and annotation*/
 
 public class User {
+    public User(Integer id, String name, String last_name, String email){
+        this.id = id;
+        this.name = name;
+        this.last_name = last_name;
+        this.email = email;
+    }
+
+    public User(String name, String last_name, String email){
+        this.name = name;
+        this.last_name = last_name;
+        this.email = email;
+    }
+
+    public User(){}
+
     @Nullable
     @SerializedName("id")
-    Integer id;
+    private Integer id;
 
     @SerializedName("name")
-    String name;
+    private String name;
 
     @SerializedName("last_name")
-    String last_name;
+    private String last_name;
 
     @SerializedName("email")
-    String email;
+    private String email;
 
     public Integer getId() {
         return id;

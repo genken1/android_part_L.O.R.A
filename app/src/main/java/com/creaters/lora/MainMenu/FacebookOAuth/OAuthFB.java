@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.creaters.lora.Preferences;
+import com.creaters.lora.RetrofitComponent.Controllers.AchievementsController;
 import com.creaters.lora.RetrofitComponent.Controllers.UserController;
 import com.creaters.lora.RetrofitComponent.Entities.User;
 import com.facebook.AccessToken;
@@ -23,6 +25,7 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
+
 public class OAuthFB {
     private Context context;
     private CallbackManager callbackManager;
@@ -30,23 +33,25 @@ public class OAuthFB {
     private LoginButton loginButton;
     private User user;
     private UserController userController;
-    private boolean getEmailOneTime = true;
+    private Preferences preferences;
+    private SyncRequest sync;
 
-    public OAuthFB(Context context, LoginButton loginButton, CallbackManager callbackManager){
+    public OAuthFB(Context context, LoginButton loginButton, CallbackManager callbackManager) {
         this.callbackManager = callbackManager;
         this.loginButton = loginButton;
         this.context = context;
         user = new User();
+        preferences = new Preferences(context, "user_data");
         facebookOAuth();
     }
 
     AccessTokenTracker tokenTracker = new AccessTokenTracker() {
         @Override
         protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-            if(currentAccessToken==null){
+            if (currentAccessToken == null) {
                 Toast.makeText(context, "User logged out", Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(context, user.getName()+" "+ user.getLast_name()+" "+ user.getEmail()+" ", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(context, user.getName() + " " + user.getLast_name() + " " + user.getEmail() + " ", Toast.LENGTH_LONG).show();
                 loadUserProfile(currentAccessToken);
             }
         }
@@ -58,21 +63,21 @@ public class OAuthFB {
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
                     userController = new UserController();
+                    /*в поле с именем хранится еще и фаимлия поэтому приходится делать такую заглушку.*/
                     String[] result = object.getString("name").split(" ", 2);
-                    String name = result[0];
-                    user.setName(name);
+                    user.setName(result[0]);
                     user.setLast_name(object.getString("last_name"));
-                    user.setEmail(object.getString("email"));
-                    userController.createPostRequest(user);
+                    /**
+                    *добавляем данные в SharedPreferences(Возможна исключительная ситуация,
+                    *когда у пользователя к аккаунту facebook не привзяана почта)
+                    */
                     try {
-                        if(getEmailOneTime) {
-                            //userController.createGetRequest("chushckin.ol@yandex.ru");
-                            getEmailOneTime = false;
-                        }else{
+                        user.setEmail(object.getString("email"));
+                        preferences.setValue("email", object.getString("email"));
 
-                            //userController.createGetRequest();
-                        }
-                    }catch(IllegalArgumentException e){
+                        sync = new SyncRequest(preferences, userController, user);
+                        sync.start();
+                    } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
                 } catch (JSONException e) {
@@ -86,18 +91,19 @@ public class OAuthFB {
         request.executeAsync();
     }
 
-    private void checkLoginStatus(){
-        if(AccessToken.getCurrentAccessToken()!=null){
+    private void checkLoginStatus() {
+        if (AccessToken.getCurrentAccessToken() != null) {
             loadUserProfile(AccessToken.getCurrentAccessToken());
         }
     }
+
     private void facebookOAuth() {
         loginButton.setPermissions(Arrays.asList("email", "public_profile"));
         checkLoginStatus();
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                // App code
+
             }
 
             @Override
@@ -111,6 +117,6 @@ public class OAuthFB {
 
             }
         });
-        LoginManager.getInstance().logInWithReadPermissions((Activity)context, Arrays.asList("public_profile"));
+        LoginManager.getInstance().logInWithReadPermissions((Activity) context, Arrays.asList("public_profile"));
     }
 }

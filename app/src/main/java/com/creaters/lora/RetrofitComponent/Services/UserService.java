@@ -8,8 +8,11 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-/*
-* Request from our server!!! It's important. Another request don't work
+/**
+*  Request from our server!
+*  Another request don't work. It's important.
+*  For example:
+*  "users/getuserbyemail" != "users/emailuser" or another
 * */
 public interface UserService {
     @GET("users/getuserbyemail")
