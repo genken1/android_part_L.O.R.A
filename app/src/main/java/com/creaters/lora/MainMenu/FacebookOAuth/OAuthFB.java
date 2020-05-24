@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.creaters.lora.Preferences;
-import com.creaters.lora.RetrofitComponent.Controllers.AchievementsController;
 import com.creaters.lora.RetrofitComponent.Controllers.UserController;
 import com.creaters.lora.RetrofitComponent.Entities.User;
 import com.facebook.AccessToken;
@@ -28,22 +27,23 @@ import java.util.Arrays;
 
 public class OAuthFB {
     private Context context;
+    private LoginManager loginManager;
     private CallbackManager callbackManager;
     private AccessToken accessToken = AccessToken.getCurrentAccessToken();
     private LoginButton loginButton;
-    private User user;
+    private User user=null;
     private UserController userController;
     private Preferences preferences;
     private SyncRequest sync;
 
-    public OAuthFB(Context context, LoginButton loginButton, CallbackManager callbackManager) {
-        this.callbackManager = callbackManager;
-        this.loginButton = loginButton;
+    public OAuthFB(Context context, LoginManager loginManager, CallbackManager callbackManager){
         this.context = context;
-        user = new User();
+        this.callbackManager = callbackManager;
+        this.loginManager = loginManager;
         preferences = new Preferences(context, "user_data");
-        facebookOAuth();
+        user = new User();
     }
+
 
     AccessTokenTracker tokenTracker = new AccessTokenTracker() {
         @Override
@@ -51,7 +51,11 @@ public class OAuthFB {
             if (currentAccessToken == null) {
                 Toast.makeText(context, "User logged out", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(context, user.getName() + " " + user.getLast_name() + " " + user.getEmail() + " ", Toast.LENGTH_LONG).show();
+                try {
+                    Toast.makeText(context, user.getName() + " " + user.getLast_name() + " " + user.getEmail() + " ", Toast.LENGTH_LONG).show();
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
                 loadUserProfile(currentAccessToken);
             }
         }
@@ -98,12 +102,11 @@ public class OAuthFB {
     }
 
     private void facebookOAuth() {
-        loginButton.setPermissions(Arrays.asList("email", "public_profile"));
         checkLoginStatus();
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
+                Toast.makeText(context, loginResult.toString(), Toast.LENGTH_LONG).show();
             }
 
             @Override
