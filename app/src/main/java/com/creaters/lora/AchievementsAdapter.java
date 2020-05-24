@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +39,7 @@ public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapte
         String short_path = mNames.get(position)+".png";
         Bitmap bitmap = component.loadImageBitmap(context, short_path);
         holder.image.setImageBitmap(bitmap);
+        holder.text.setText(mNames.get(position));
     }
 
     @Override
@@ -47,11 +49,11 @@ public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         CircleImageView image;
-        //TextView text;
+        TextView text;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);
-            //text = itemView.findViewById(R.id.text);
+            text = itemView.findViewById(R.id.text);
         }
     }
 }
