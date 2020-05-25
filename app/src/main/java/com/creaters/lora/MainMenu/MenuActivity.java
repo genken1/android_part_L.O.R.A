@@ -28,13 +28,14 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button achievements;
-    private Button settings;
+    private ImageView  achievements;
+    private ImageView  settings;
     private ImageView start;
     private ImageButton fbGhost;
     private MenuPresenter presenter;
     private CallbackManager callbackManager;
     private OAuthFB userOAuth;
+    boolean flag = true;
 
 
     @SuppressLint("SourceLockedOrientationActivity")
@@ -55,9 +56,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @SuppressLint("WrongViewCast")
     public void initComponent() {
-        achievements = (Button) findViewById(R.id.achievements);
-        settings = (Button) findViewById(R.id.settings);
+        achievements = (ImageView) findViewById(R.id.achievements);
+        settings = (ImageView) findViewById(R.id.settings);
         start = (ImageView) findViewById(R.id.start);
         fbGhost = (ImageButton)findViewById(R.id.fb);
 
@@ -67,10 +69,12 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         fbGhost.setOnClickListener(this);
 
         presenter = new MenuPresenter(this);
+
     }
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.achievements:
                 Toast.makeText(getApplicationContext(), "Achievements Button!", Toast.LENGTH_SHORT).show();
@@ -81,6 +85,14 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 presenter.startSettingsActivity();
                 break;
             case R.id.start:
+                if (flag){
+                    start.setImageResource(R.drawable.play_button_oopen1);
+                    flag = false;
+                }else{
+                    // возвращаем первую картинку
+                    start.setImageResource(R.drawable.play_button_tap1);
+                    flag = true;
+                }
                 Toast.makeText(getApplicationContext(), "Play Button!", Toast.LENGTH_SHORT).show();
                 presenter.startPlayActivity();
                 break;

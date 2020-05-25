@@ -14,7 +14,7 @@ public class SplashScreenPresenter {
     }
 
     public void startNewActivity(Context context, ImageView image) {
-        long delay = 3000;
+        long delay = 6900;
         Intent intent_menu = new Intent(context, MenuActivity.class);
         splashModel.initAnimation();
         splashModel.animationStart(image);

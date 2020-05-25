@@ -19,14 +19,17 @@
         android:theme="@style/AppTheme.NoActionBar">
         <activity
             android:name=".Settings.SettingsActivity"
+            android:hardwareAccelerated="false"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Achievements.AchievementsActivity"
+            android:hardwareAccelerated="false"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Levels.LevelsActivity"
+            android:hardwareAccelerated="false"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity" />
         <activity
