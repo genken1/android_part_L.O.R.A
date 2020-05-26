@@ -14,6 +14,9 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_achievements">Achievements</string>
 
+    <string name="game_view_content_description">Game view</string> <!-- Не убирать эту строчку. Без нее нифига не работает !!! -->
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="facebook_app_id" tools:ignore="DuplicateDefinition">266842834362462</string>

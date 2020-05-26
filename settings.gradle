@@ -1,2 +1,5 @@
 rootProject.name='L.O.R.A'
 include ':app'
+
+include ':unityLibrary'
+project(':unityLibrary').projectDir=new File('..\\UnityProject\\androidBuild\\unityLibrary')
