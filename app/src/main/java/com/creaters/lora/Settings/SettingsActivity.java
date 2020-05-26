@@ -3,8 +3,11 @@ package com.creaters.lora.Settings;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.Switch;
 
 import com.creaters.lora.R;
 
@@ -14,6 +17,8 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        Switch sw1 = (Switch) findViewById(R.id.switch1);
+        Switch sw3 = (Switch) findViewById(R.id.switch3);
 
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);

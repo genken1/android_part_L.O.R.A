@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -35,6 +36,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     private MenuPresenter presenter;
     private CallbackManager callbackManager;
     private OAuthFB userOAuth;
+    private MediaPlayer but_set_sound, music_aud;
     boolean flag = true;
 
 
@@ -62,6 +64,8 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         settings = (ImageView) findViewById(R.id.settings);
         start = (ImageView) findViewById(R.id.start);
         fbGhost = (ImageButton)findViewById(R.id.fb);
+        but_set_sound = MediaPlayer.create(this, R.raw.tap_button);
+        music_aud = MediaPlayer.create(this, R.raw.audio_music);
 
         achievements.setOnClickListener(this);
         settings.setOnClickListener(this);
@@ -77,10 +81,12 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.achievements:
+                soundPlay(but_set_sound);
                 Toast.makeText(getApplicationContext(), "Achievements Button!", Toast.LENGTH_SHORT).show();
                 presenter.startAchievementsActivity();
                 break;
             case R.id.settings:
+                soundPlay(but_set_sound);
                 Toast.makeText(getApplicationContext(), "Settings Button", Toast.LENGTH_SHORT).show();
                 presenter.startSettingsActivity();
                 break;
@@ -93,16 +99,23 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                     start.setImageResource(R.drawable.play_button_tap1);
                     flag = true;
                 }
+
+                soundPlay(but_set_sound);
                 Toast.makeText(getApplicationContext(), "Play Button!", Toast.LENGTH_SHORT).show();
                 presenter.startPlayActivity();
                 break;
             case R.id.fb:
+                soundPlay(but_set_sound);
                 callbackManager = CallbackManager.Factory.create();
                 Toast.makeText(getApplicationContext(), "Facebook Button!", Toast.LENGTH_SHORT).show();
                 LoginManager loginManager = LoginManager.getInstance();
                 loginManager.logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
                 userOAuth = new OAuthFB(this, loginManager, callbackManager);
         }
+    }
+
+    public void soundPlay(MediaPlayer sound){
+        sound.start();
     }
 
 }

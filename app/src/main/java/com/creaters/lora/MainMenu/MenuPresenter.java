@@ -17,6 +17,7 @@ public class MenuPresenter {
     private Intent intent_play;
     private CallbackManager callbackManager;
     private LoginButton loginButton;
+    long delay = 6900;
 
     public CallbackManager getCallbackManager() {
         return callbackManager;
