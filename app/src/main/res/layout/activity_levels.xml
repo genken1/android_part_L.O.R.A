@@ -7,7 +7,9 @@
     android:orientation="horizontal"
     tools:context=".Levels.LevelsActivity">
 
+
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal">
@@ -17,15 +19,60 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/menu_levels" />
+            app:srcCompat="@drawable/menu_levels1"
+            android:contentDescription="TODO" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/level"
+    <LinearLayout
+        android:layout_width="646dp"
+        android:layout_height="200dp"
+        android:layout_below="@id/textView7"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="100sp"
+        android:layout_marginRight="100sp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="TODO"
+            app:srcCompat="@drawable/level1_open" />
+
+        <ImageView
+            android:id="@+id/level2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="TODO"
+            app:srcCompat="@drawable/level2_close" />
+
+        <ImageView
+            android:id="@+id/level3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="TODO"
+            app:srcCompat="@drawable/level3_close" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="level 1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_weight="1"
+        android:fontFamily="@font/megrim"
+        android:gravity="center|center_horizontal|center_vertical"
+        android:text="levels"
+        android:textSize="90sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

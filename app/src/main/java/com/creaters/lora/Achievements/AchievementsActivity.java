@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.creaters.lora.AchievementsAdapter;
 import com.creaters.lora.Preferences;
@@ -23,6 +25,9 @@ public class AchievementsActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         preferences = new Preferences(this, "achievements");
         ArrayList<String> list_names = new ArrayList<>(preferences.getAll().keySet());
+
+        Window w = getWindow();
+        w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.recyclerView);
 
