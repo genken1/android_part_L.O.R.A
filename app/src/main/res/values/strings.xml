@@ -22,5 +22,10 @@
     <string name="facebook_app_id" tools:ignore="DuplicateDefinition">266842834362462</string>
     <string name="fb_login_protocol_scheme" tools:ignore="DuplicateDefinition">fb266842834362462</string>
     <string name="achievements">Achievements</string>
+    <string name="todo">TODO</string>
+    <string name="todo">TODO</string>
+    <string name="todo">TODO</string>
+    <string name="todo">TODO</string>
+    <string name="levels">levels</string>
 
 </resources>

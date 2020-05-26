@@ -39,7 +39,7 @@
         android:id="@+id/achievements"
         android:layout_width="116dp"
         android:layout_height="104dp"
-        android:src="@drawable/achievements1"
+        android:src="@drawable/achievements"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +48,7 @@
         android:layout_width="108dp"
         android:layout_height="106dp"
         android:layout_marginStart="10dp"
-        android:src="@drawable/play_button_oopen1"
+        android:src="@drawable/play_button_stay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.477"

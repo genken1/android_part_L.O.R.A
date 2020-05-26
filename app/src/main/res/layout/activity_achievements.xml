@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/menu_achievements3" />
+            app:srcCompat="@drawable/menu_achievements" />
 
     </LinearLayout>
 
@@ -31,7 +31,7 @@
         android:layout_weight="1"
         android:fontFamily="@font/megrim"
         android:gravity="center|center_horizontal|center_vertical"
-        android:text="achievements"
+        android:text="@string/achievements"
         android:textSize="60sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

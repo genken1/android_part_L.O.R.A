@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/menu_levels1"
-            android:contentDescription="TODO" />
+            android:contentDescription="@string/todo" />
     </LinearLayout>
 
     <LinearLayout
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/todo"
             app:srcCompat="@drawable/level1_open" />
 
         <ImageView
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/todo"
             app:srcCompat="@drawable/level2_close" />
 
         <ImageView
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/todo"
             app:srcCompat="@drawable/level3_close" />
 
     </LinearLayout>
@@ -70,7 +70,7 @@
         android:layout_weight="1"
         android:fontFamily="@font/megrim"
         android:gravity="center|center_horizontal|center_vertical"
-        android:text="levels"
+        android:text="@string/levels"
         android:textSize="90sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
