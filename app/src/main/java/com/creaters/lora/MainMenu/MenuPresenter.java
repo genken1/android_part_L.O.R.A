@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.creaters.lora.Achievements.AchievementsActivity;
 import com.creaters.lora.Levels.LevelsActivity;
+import com.creaters.lora.Levels.LevelsModel;
 import com.creaters.lora.MainMenu.FacebookOAuth.OAuthFB;
 import com.creaters.lora.Settings.SettingsActivity;
 import com.facebook.CallbackManager;
@@ -19,6 +20,7 @@ public class MenuPresenter {
     private LoginButton loginButton;
     long delay = 6900;
 
+    private LevelsModel model;
     public CallbackManager getCallbackManager() {
         return callbackManager;
     }
@@ -44,6 +46,8 @@ public class MenuPresenter {
         context.startActivity(intent_settings);
     }
     public void startAchievementsActivity() {
+        model = new LevelsModel(context);
+        model.loadAchievements();
         intent_achievements = new Intent(context, AchievementsActivity.class);
         context.startActivity(intent_achievements);
     }

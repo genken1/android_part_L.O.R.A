@@ -40,7 +40,7 @@ public class OAuthFB {
         this.context = context;
         this.callbackManager = callbackManager;
         this.loginManager = loginManager;
-        preferences = new Preferences(context, "user_data");
+        preferences = new Preferences(context, context.getPackageName() +".v2.playerprefs");
         user = new User();
     }
 

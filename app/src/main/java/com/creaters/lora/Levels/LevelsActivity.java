@@ -27,7 +27,7 @@ public class LevelsActivity extends AppCompatActivity {
         level = (ImageView) findViewById(R.id.level);
         presenter = new LevelPresenter(this);
         model = new LevelsModel(this);
-        intent = new Intent(this, UnityPlayerActivity.class);
+        intent = new Intent(this, OwerrideUnityPlayer.class);
         Window w = getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -36,7 +36,7 @@ public class LevelsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(intent);
                 Toast.makeText(getApplicationContext(), "Start level", Toast.LENGTH_SHORT).show();
-                model.loadAchievements();
+                //model.loadAchievements();
             }
 
         });

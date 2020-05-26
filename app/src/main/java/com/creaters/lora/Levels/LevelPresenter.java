@@ -3,7 +3,6 @@ package com.creaters.lora.Levels;
 import android.content.Context;
 
 import com.creaters.lora.Preferences;
-import com.creaters.lora.RetrofitComponent.Controllers.AchievementsController;
 /**
  * After completing the level, data is entered into shared preferences.
  * */

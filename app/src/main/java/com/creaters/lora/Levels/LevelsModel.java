@@ -16,13 +16,14 @@ public class LevelsModel {
     public LevelsModel(Context context){
         this.context = context;
         achievController = new AchievementsController();
-        userData = new Preferences(context, "user_data");
+        userData = new Preferences(context, context.getPackageName() +".v2.playerprefs");
         achievementsData = new Preferences(context, "achievements");
         syncRequest = new LevelSyncRequest(context, userData, achievementsData, achievController);
     }
 
     public void loadAchievements(){
         /*Async request to our server*/
+
         if(!userData.getValue("id").isEmpty())
             syncRequest.run();
     }

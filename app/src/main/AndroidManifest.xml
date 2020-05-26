@@ -22,6 +22,13 @@
 
 
         <activity
+            android:name=".Levels.OwerrideUnityPlayer"
+            android:hardwareAccelerated="false"
+            android:screenOrientation="landscape"
+            tools:ignore="LockedOrientationActivity"
+            />
+
+        <activity
             android:name=".Settings.SettingsActivity"
             android:hardwareAccelerated="false"
             android:screenOrientation="landscape"

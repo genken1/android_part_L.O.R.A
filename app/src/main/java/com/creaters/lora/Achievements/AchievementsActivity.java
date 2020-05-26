@@ -36,7 +36,5 @@ public class AchievementsActivity extends AppCompatActivity {
         AchievementsAdapter adapter = new AchievementsAdapter(list_names, this);
 
         rv.setAdapter(adapter);
-
-
     }
 }
